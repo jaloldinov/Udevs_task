@@ -9,8 +9,9 @@ import (
 )
 
 type Store struct {
-	db         *pgxpool.Pool
-	profession storage.AuthorI
+	db       *pgxpool.Pool
+	author   storage.AuthorI
+	category storage.CategoryI
 }
 
 func NewPostgres(psqlConnString string, cfg config.Config) (storage.StorageI, error) {
@@ -31,8 +32,15 @@ func NewPostgres(psqlConnString string, cfg config.Config) (storage.StorageI, er
 }
 
 func (s *Store) Author() storage.AuthorI {
-	if s.profession == nil {
-		s.profession = NewAuthorRepo(s.db)
+	if s.author == nil {
+		s.author = NewAuthorRepo(s.db)
 	}
-	return s.profession
+	return s.author
+}
+
+func (s *Store) Category() storage.CategoryI {
+	if s.category == nil {
+		s.category = NewCategoryRepo(s.db)
+	}
+	return s.category
 }
