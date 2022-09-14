@@ -68,8 +68,8 @@ func (s *authorService) Update(ctx context.Context, req *ab.Author) (*ab.Result,
 	}
 
 	return &ab.Result{
-		Result:  result,
-		Message: "Author updated",
+		Result:  result.Result,
+		Message: result.Message,
 	}, nil
 }
 

@@ -18,6 +18,6 @@ type AuthorI interface {
 	Create(ctx context.Context, entity *ab.CreateAuthorRequest) (id string, err error)
 	GetAll(ctx context.Context, req *ab.GetAllAuthorRequest) (*ab.GetAllAuthorResponse, error)
 	Get(id string) (*ab.Author, error)
-	Update(req *ab.Author) (string, error)
+	Update(req *ab.Author) (*ab.Result, error)
 	Delete(id string) (*ab.Result, error)
 }

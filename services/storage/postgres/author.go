@@ -137,7 +137,7 @@ func (r *authorRepo) Get(id string) (*ab.Author, error) {
 	return &author, nil
 }
 
-func (r *authorRepo) Update(req *ab.Author) (string, error) {
+func (r *authorRepo) Update(req *ab.Author) (*ab.Result, error) {
 
 	query := `
 		UPDATE authors SET
@@ -155,14 +155,17 @@ func (r *authorRepo) Update(req *ab.Author) (string, error) {
 	)
 
 	if err != nil {
-		return "", fmt.Errorf("error while updating author err: %w", err)
+		return nil, fmt.Errorf("error while updating author err: %w", err)
 	}
 
 	if i := result.RowsAffected(); i == 0 {
-		return "not found id", nil
+		return nil, errors.New("not found id")
 	}
 
-	return "Updated", nil
+	return &ab.Result{
+		Result:  "OK",
+		Message: "Updated",
+	}, nil
 }
 
 func (r *authorRepo) Delete(id string) (*ab.Result, error) {
