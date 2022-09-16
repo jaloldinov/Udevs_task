@@ -12,6 +12,7 @@ type Store struct {
 	db       *pgxpool.Pool
 	author   storage.AuthorI
 	category storage.CategoryI
+	book     storage.BookI
 }
 
 func NewPostgres(psqlConnString string, cfg config.Config) (storage.StorageI, error) {
@@ -43,4 +44,11 @@ func (s *Store) Category() storage.CategoryI {
 		s.category = NewCategoryRepo(s.db)
 	}
 	return s.category
+}
+
+func (s *Store) Book() storage.BookI {
+	if s.book == nil {
+		s.book = NewBookRepo(s.db)
+	}
+	return s.book
 }

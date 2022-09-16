@@ -2,17 +2,14 @@ package storage
 
 import (
 	"context"
-	"errors"
 
 	ab "github.com/jaloldinov/Udevs_task/author_service/genproto/author_service"
 )
 
-var ErrorTheSameId = errors.New("cannot use the same uuid for 'id' and 'parent_id' fields")
-var ErrorProjectId = errors.New("not valid 'project_id'")
-
 type StorageI interface {
 	Author() AuthorI
 	Category() CategoryI
+	Book() BookI
 }
 
 type AuthorI interface {
@@ -28,5 +25,13 @@ type CategoryI interface {
 	GetAll(ctx context.Context, req *ab.GetAllCategoryRequest) (*ab.GetAllCategoryResponse, error)
 	Get(id string) (*ab.Category, error)
 	Update(req *ab.Category) (*ab.Result, error)
+	Delete(id string) (*ab.Result, error)
+}
+
+type BookI interface {
+	Create(ctx context.Context, entity *ab.CreateBookRequest) (id string, err error)
+	GetAll(ctx context.Context, req *ab.GetAllBookRequest) (*ab.GetAllBookResponse, error)
+	Get(id string) (*ab.Book, error)
+	Update(req *ab.Book) (*ab.Result, error)
 	Delete(id string) (*ab.Result, error)
 }
