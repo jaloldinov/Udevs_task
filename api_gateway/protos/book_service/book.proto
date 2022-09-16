@@ -1,0 +1,46 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/book_service";
+
+service BookService {
+    rpc Create(CreateBookRequest) returns (Book) {}
+    rpc GetAll(GetAllBookRequest) returns (GetAllBookResponse) {}
+    rpc Get(BookId) returns (Book) {}
+    rpc Update(Book) returns (Result) {}
+    rpc Delete(BookId) returns (Result) {}
+}
+
+message CreateBookRequest {
+    string name = 1;
+    string author_id = 2;
+    string category_id = 3;
+}
+
+message Book {
+    string id = 1;
+    string name = 2;
+    string author_id = 3;
+    string category_id = 4;
+}
+
+message BookId {
+    string id = 1;
+}
+
+message GetAllBookRequest {
+    int32 limit = 1;
+    int32 offset = 2;
+    string search = 3;
+}
+
+message GetAllBookResponse {
+    repeated Book books = 1;
+    int32 count = 2;
+}
+
+message Result {
+    string result = 1;
+    string message = 2;
+}
+

@@ -1,0 +1,41 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/book_service";
+import "book.proto";
+
+service AuthorService {
+    rpc Create(CreateAuthorRequest) returns (Author) {}
+    rpc GetAll(GetAllAuthorRequest) returns (GetAllAuthorResponse) {}
+    rpc Get(AuthorId) returns (Author) {}
+    rpc Update(Author) returns (Result) {}
+    rpc Delete(AuthorId) returns (Result) {}
+}
+
+message CreateAuthorRequest {
+    string firstName = 1;
+    string lastName = 2;
+}
+
+message Author {
+    string id = 1;
+    string firstName = 2;
+    string lastName = 3;
+}
+
+message AuthorId {
+    string id = 1;
+}
+
+message GetAllAuthorRequest {
+    int32 limit = 1;
+    int32 offset = 2;
+    string search = 3;
+}
+
+message GetAllAuthorResponse {
+    repeated Author authors = 1;
+    int32 count = 2;
+}
+
+

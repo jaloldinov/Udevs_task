@@ -1,0 +1,298 @@
+definitions:
+  book_service.CreateAuthorRequest:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+    type: object
+  models.Author:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+    required:
+    - first_name
+    - last_name
+    type: object
+  models.CreateAuthor:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+    required:
+    - first_name
+    - last_name
+    type: object
+  models.GetAllAuthorResponse:
+    properties:
+      authors:
+        items:
+          $ref: '#/definitions/models.Author'
+        type: array
+      count:
+        type: integer
+    type: object
+  models.ResponseModel:
+    properties:
+      code:
+        type: integer
+      data: {}
+      error: {}
+      message:
+        type: string
+    type: object
+  models.Status:
+    properties:
+      status:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/author:
+    get:
+      consumes:
+      - application/json
+      description: get author
+      operationId: get-author
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.GetAllAuthorResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: get author all
+      tags:
+      - author
+    post:
+      consumes:
+      - application/json
+      description: create author by inserting name
+      operationId: create-author
+      parameters:
+      - description: author
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/book_service.CreateAuthorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Author'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: create author
+      tags:
+      - author
+  /v1/author/{author_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Author
+      operationId: delete-author
+      parameters:
+      - description: author_id
+        in: path
+        name: author_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Status'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: delete author
+      tags:
+      - author
+    get:
+      consumes:
+      - application/json
+      description: get author
+      operationId: get-author-byID
+      parameters:
+      - description: author_id
+        in: path
+        name: author_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Author'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: get author by ID
+      tags:
+      - author
+    put:
+      consumes:
+      - application/json
+      description: Update Author by ID
+      operationId: update_author
+      parameters:
+      - description: author_id
+        in: path
+        name: author_id
+        required: true
+        type: string
+      - description: author
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAuthor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Status'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Update Author
+      tags:
+      - author
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

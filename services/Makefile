@@ -15,8 +15,5 @@ migration-up:
 migration-down:
 	migrate -path ./migrations/postgres -database 'postgres://postgres:Muhammad@0.0.0.0:5432/books?sslmode=disable' down
 
-swag-init:
-	swag init -g api/api.go -o api/docs
-
 run:
 	go run cmd/main.go
