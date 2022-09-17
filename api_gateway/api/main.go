@@ -68,6 +68,11 @@ func New(opt *RouterOptions) *gin.Engine {
 	apiV1.DELETE("category/:category_id", handlerV1.DeleteCategory)
 
 	// // book
+	apiV1.POST("book", handlerV1.CreateBook)
+	apiV1.GET("book", handlerV1.GetAllBook)
+	apiV1.GET("book/:book_id", handlerV1.GetBook)
+	apiV1.PUT("book/:book_id", handlerV1.UpdateBook)
+	apiV1.DELETE("book/:book_id", handlerV1.DeleteBook)
 
 	// swagger
 	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition
