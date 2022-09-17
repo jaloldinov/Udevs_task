@@ -61,6 +61,11 @@ func New(opt *RouterOptions) *gin.Engine {
 	apiV1.DELETE("/author/:author_id", handlerV1.DeleteAuthor)
 
 	// // category
+	apiV1.POST("category", handlerV1.CreateCategory)
+	apiV1.GET("category", handlerV1.GetAllCategory)
+	apiV1.GET("category/:category_id", handlerV1.GetCategory)
+	apiV1.PUT("category/:category_id", handlerV1.UpdateCategory)
+	apiV1.DELETE("category/:category_id", handlerV1.DeleteCategory)
 
 	// // book
 

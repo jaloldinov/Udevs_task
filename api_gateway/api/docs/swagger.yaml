@@ -1,10 +1,31 @@
 definitions:
+  book_service.Category:
+    properties:
+      category_name:
+        type: string
+      id:
+        type: string
+    type: object
   book_service.CreateAuthorRequest:
     properties:
       firstName:
         type: string
       lastName:
         type: string
+    type: object
+  book_service.CreateCategoryRequest:
+    properties:
+      category_name:
+        type: string
+    type: object
+  book_service.GetAllCategoryResponse:
+    properties:
+      categories:
+        items:
+          $ref: '#/definitions/book_service.Category'
+        type: array
+      count:
+        type: integer
     type: object
   models.Author:
     properties:
@@ -18,6 +39,15 @@ definitions:
     - first_name
     - last_name
     type: object
+  models.Category:
+    properties:
+      category_name:
+        type: string
+      id:
+        type: string
+    required:
+    - category_name
+    type: object
   models.CreateAuthor:
     properties:
       first_name:
@@ -27,6 +57,13 @@ definitions:
     required:
     - first_name
     - last_name
+    type: object
+  models.CreateCategory:
+    properties:
+      name:
+        type: string
+    required:
+    - name
     type: object
   models.GetAllAuthorResponse:
     properties:
@@ -290,6 +327,242 @@ paths:
       summary: Update Author
       tags:
       - author
+  /v1/category:
+    get:
+      consumes:
+      - application/json
+      description: get category
+      operationId: get-category
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/book_service.GetAllCategoryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: get category all
+      tags:
+      - category
+    post:
+      consumes:
+      - application/json
+      description: create category
+      operationId: create-categorys
+      parameters:
+      - description: category
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/book_service.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/book_service.Category'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: create category
+      tags:
+      - category
+  /v1/category/{category_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Category
+      operationId: delete-category
+      parameters:
+      - description: category_id
+        in: path
+        name: category_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Status'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: delete category
+      tags:
+      - category
+    get:
+      consumes:
+      - application/json
+      description: get category
+      operationId: get-category-byID
+      parameters:
+      - description: category_id
+        in: path
+        name: category_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Category'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: get category by ID
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: Update Category by ID
+      operationId: update_category
+      parameters:
+      - description: category_id
+        in: path
+        name: category_id
+        required: true
+        type: string
+      - description: category
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Status'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Update Category
+      tags:
+      - category
 securityDefinitions:
   ApiKeyAuth:
     in: header
